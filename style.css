@@ -66,6 +66,7 @@ hr{
     border: 1px solid white;
     background: transparent;
     padding: 18px 10px;
+    color: white;
 }
 
 .input-div #city-country-search::placeholder{
