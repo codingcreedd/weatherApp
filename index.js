@@ -3,7 +3,7 @@
 async function fetchWeatherData(cityName) {
     try {
         console.log('ran')
-        const weatherResult = await fetch(`http://api.weatherapi.com/v1/current.json?key=37f27913376d45459b7195029241802&q=${cityName}`);
+        const weatherResult = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=37f27913376d45459b7195029241802&q=${cityName}&days=10&aqi=no&alerts=no`);
         if (!weatherResult.ok) {
             throw new Error('Failed to fetch weather data');
         }
@@ -56,7 +56,7 @@ function renderCityCountryName(weatherData)
 function renderCityCountryTemp(weatherData)
 {
     const temp = document.querySelector('.temperature');
-    temp.innerText = `${weatherData.current.temp_c}`;
+    temp.innerText = `${weatherData.current.temp_c}°`;
 }
 
 function renderHeaderWeatherInfo(weatherData)
@@ -64,6 +64,23 @@ function renderHeaderWeatherInfo(weatherData)
     //THIS FUNCTION IS RESPONSIBLE FOR RENDERING THE DATA THAT IS IN THE HEADER 
     const weatherStatusHeader = document.getElementById('weather-status');
     weatherStatusHeader.innerText = `${weatherData.current.condition.text}`;
+
+    const highTemp = document.getElementById('high-temp');
+    const lowTemp = document.getElementById('low-temp');
+    const currentDay = new Date().toISOString().split('T')[0];
+    const forecastData = weatherData.forecast.forecastday;
+    const currentDayForecast = forecastData.find(day => day.date === currentDay);
+    const maxTempC = currentDayForecast.day.maxtemp_c;
+    const minTempC = currentDayForecast.day.mintemp_c;
+
+    highTemp.innerText = `H: ${maxTempC}°`;
+    lowTemp.innerText = `L: ${minTempC}°`;
+
+    const todayDate = document.getElementById('today');
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.toLocaleString('en-US', { weekday: 'long' });
+    todayDate.innerText = `${dayOfWeek}`;
+
 }
 
 const searchButton = document.getElementById('search-btn');
