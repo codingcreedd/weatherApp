@@ -1,0 +1,77 @@
+*, *::before, *::after{box-sizing: border-box;}
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+}
+
+body{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e272e, #34495e);
+    color: white;
+    padding: 2% 3%;
+}
+
+hr{
+    color: white;
+    opacity: 0.3;
+}
+
+.header-section{
+    display: flex;
+    align-items: start;
+    margin-bottom: 12px;
+}
+
+.header-section .temperature{
+    margin-left: auto;
+    transform: translateX(-20px);
+    font-size: 6rem;
+    font-weight: 300;
+}
+
+.header-section .header-info{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.header-section .header-info #city-name-info{
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+.header-section .header-info .high-low-div{
+    display: flex;
+    gap: 5px;
+}
+
+.header-section .header-info #current-day strong{
+    font-size: 1.3rem;
+    margin-right: 7px;
+}
+
+/*weather info section*/
+
+.weather-info-section{
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    margin-top: 20px;
+    gap: 35px;
+}
+
+.weather-info-section .weather-info-div{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px 20px;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
