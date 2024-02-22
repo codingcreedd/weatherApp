@@ -130,7 +130,7 @@ hr{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-left: 45%;
+    margin-left: 40%;
     font-size: 1.3rem;
 }
 
@@ -148,22 +148,21 @@ hr{
     font-weight: 300;
     margin-bottom: 15px;
     align-items: center;
-    justify-content: space-between;
+    width: 670px;
 }
 
 #week-day{
     margin-right: 150px;
+    max-width: 50px;
 }
 
 #Icon{
     margin-right: 250px;
     width: 35px;
     height: 35px;
-    
 }
 
 #high-temp-day{
     margin-right: 50px;
 }
-
 
