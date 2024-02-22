@@ -3,7 +3,7 @@
 async function fetchWeatherData(cityName) {
     try {
         console.log('ran')
-        const weatherResult = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=37f27913376d45459b7195029241802&q=${cityName}&days=10&aqi=no&alerts=no`);
+        const weatherResult = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=37f27913376d45459b7195029241802&q=${cityName}&days=10&aqi=no&alerts=no`, {mode: 'cors'});
         if (!weatherResult.ok) {
             throw new Error('Failed to fetch weather data');
         }
@@ -22,6 +22,7 @@ fetchWeatherData("Tripoli, Lebanon").then((weatherData) => {
     renderCityCountryTemp(weatherData);
     renderHeaderWeatherInfo(weatherData);
     renderWeatherInfoAtAllTimes(weatherData);
+    renderDayInfo(weatherData);
 })
 
 //synchrounous functions
@@ -60,6 +61,14 @@ function renderCityCountryTemp(weatherData)
     temp.innerText = `${weatherData.current.temp_c}°`;
 }
 
+function getForcastDay(weatherData)
+{
+    const currentDay = new Date().toISOString().split('T')[0];
+    const forecastData = weatherData.forecast.forecastday;
+    const currentDayForecast = forecastData.find(day => day.date === currentDay);
+    return currentDayForecast;
+}
+
 function renderHeaderWeatherInfo(weatherData)
 {
     //THIS FUNCTION IS RESPONSIBLE FOR RENDERING THE DATA THAT IS IN THE HEADER 
@@ -68,11 +77,8 @@ function renderHeaderWeatherInfo(weatherData)
 
     const highTemp = document.getElementById('high-temp');
     const lowTemp = document.getElementById('low-temp');
-    const currentDay = new Date().toISOString().split('T')[0];
-    const forecastData = weatherData.forecast.forecastday;
-    const currentDayForecast = forecastData.find(day => day.date === currentDay);
-    const maxTempC = currentDayForecast.day.maxtemp_c;
-    const minTempC = currentDayForecast.day.mintemp_c;
+    const maxTempC = getForcastDay(weatherData).day.maxtemp_c;
+    const minTempC = getForcastDay(weatherData).day.mintemp_c;
 
     highTemp.innerText = `H: ${maxTempC}°`;
     lowTemp.innerText = `L: ${minTempC}°`;
@@ -122,8 +128,6 @@ function removeAllWeatherDivInfoFromDOM(){
 
 function renderWeatherInfoAtAllTimes(weatherData){
     const currentDay = new Date().toISOString().split('T')[0];
-    const forecastData = weatherData.forecast.forecastday;
-    const currentDayForecast = forecastData.find(day => day.date === currentDay);
     const currentDate = new Date();
 
     const year = currentDate.getFullYear();
@@ -134,7 +138,7 @@ function renderWeatherInfoAtAllTimes(weatherData){
     // Format the date as "YYYY-MM-DD HH:00"
     const formattedDateTime = `${year}-${month}-${day} ${hour}:00`;
 
-    currentDayForecast.hour.forEach(currentHour => {
+    getForcastDay(weatherData).hour.forEach(currentHour => {
         const time = extractTime(currentHour.time);
         const timeIn12HourFormat = convertTo12HourClock(time);
 
@@ -168,6 +172,22 @@ function convertTo12HourClock(time) {
     return `${hours12}:${minutes} ${period}`;
 }
 
+function renderDayInfo(weatherData){
+    const sunrise = document.getElementById('sunrise');
+    const sunset = document.getElementById('sunset');
+    const chanceOfRain = document.getElementById('chance-of-rain');
+    const humidity = document.getElementById('humidity');
+    const wind = document.getElementById('wind');
+
+    sunrise.innerText = `Sunrise: ${getForcastDay(weatherData).astro.sunrise}`;
+    sunset.innerText = `Sunset: ${getForcastDay(weatherData).astro.sunset}`;
+    chanceOfRain.innerText = `Chance of Rain: ${getForcastDay(weatherData).day.daily_chance_of_rain}%`;
+    humidity.innerText = `Humidity: ${getForcastDay(weatherData).day.avghumidity}%`;
+    wind.innerText = `Wind: ${getForcastDay(weatherData).day.maxwind_mph * 1.609} kph`;
+    
+}
+
+
 const searchButton = document.getElementById('search-btn');
 searchButton.addEventListener('click', () => {
     removeAllWeatherDivInfoFromDOM();
@@ -179,6 +199,7 @@ searchButton.addEventListener('click', () => {
         renderCityCountryTemp(weatherData);
         renderHeaderWeatherInfo(weatherData);
         renderWeatherInfoAtAllTimes(weatherData);
+        renderDayInfo(weatherData);
     })
     .catch(error => {
         console.error('Error handling data:', error);
