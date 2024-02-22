@@ -23,6 +23,7 @@ fetchWeatherData("Tripoli, Lebanon").then((weatherData) => {
     renderHeaderWeatherInfo(weatherData);
     renderWeatherInfoAtAllTimes(weatherData);
     renderDayInfo(weatherData);
+    renderDays(weatherData);
 })
 
 //synchrounous functions
@@ -187,6 +188,71 @@ function renderDayInfo(weatherData){
     
 }
 
+function extractYearMonthDay(dateString) {
+    const parts = dateString.split('-');
+
+    const year = parseInt(parts[0]); 
+    const month = parseInt(parts[1]); 
+    const day = parseInt(parts[2]); 
+
+    return { year, month, day };
+}
+
+function convertDateToDayOfWeek(year, month, day) {
+    const date = new Date(year, month - 1, day);
+
+    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'long' });
+
+    return dayOfWeek;
+}
+
+function renderDay(day, icon, lowTemp, highTemp) {
+    // Create the outer div for the day
+    const dayDiv = document.createElement('div');
+    dayDiv.classList.add('week-day-div');
+
+    // Create and set the text for the day of the week
+    const dayOfWeek = document.createElement('p');
+    dayOfWeek.id = 'week-day';
+    dayOfWeek.textContent = day;
+
+    // Create and set the icon image source
+    const iconImg = document.createElement('img');
+    iconImg.id = 'Icon';
+    iconImg.src = icon;
+    iconImg.alt = 'Weather Icon';
+
+    // Create and set the text for the high temperature
+    const highTempParagraph = document.createElement('p');
+    highTempParagraph.id = 'high-temp-day';
+    highTempParagraph.textContent = highTemp;
+
+    // Create and set the text for the low temperature
+    const lowTempParagraph = document.createElement('p');
+    lowTempParagraph.id = 'low-temp-day';
+    lowTempParagraph.textContent = lowTemp;
+
+    // Append all elements to the dayDiv
+    dayDiv.appendChild(dayOfWeek);
+    dayDiv.appendChild(iconImg);
+    dayDiv.appendChild(highTempParagraph);
+    dayDiv.appendChild(lowTempParagraph);
+
+    // Append the dayDiv to the parent container with class "days"
+    const daysContainer = document.querySelector('.days');
+    daysContainer.appendChild(dayDiv);
+}
+
+function renderDays(weatherData){
+    const forecastDay = weatherData.forecast.forecastday;
+    for(let i = 1; i <= 6; i++){
+        const date = forecastDay[i].date;
+        const extractedDate = extractYearMonthDay(date);
+        const day = convertDateToDayOfWeek(extractedDate.year, extractedDate.month, extractedDate.day);
+        renderDay(day, forecastDay[i].day.condition.icon, forecastDay[i].day.mintemp_c, forecastDay[i].day.maxtemp_c);
+    }
+}
+
 
 const searchButton = document.getElementById('search-btn');
 searchButton.addEventListener('click', () => {
@@ -200,6 +266,7 @@ searchButton.addEventListener('click', () => {
         renderHeaderWeatherInfo(weatherData);
         renderWeatherInfoAtAllTimes(weatherData);
         renderDayInfo(weatherData);
+        renderDays(weatherData);
     })
     .catch(error => {
         console.error('Error handling data:', error);
