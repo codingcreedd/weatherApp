@@ -113,6 +113,12 @@ function addWeatherInfoDiv(time, icon, temperature) {
     container.appendChild(div);
 }
 
+function removeAllWeatherDivInfoFromDOM(){
+    const container = document.querySelector('.weather-info-section');
+    while(container.firstChild){
+        container.removeChild(container.firstChild);
+    }
+}
 
 function renderWeatherInfoAtAllTimes(weatherData){
     const currentDay = new Date().toISOString().split('T')[0];
@@ -164,6 +170,7 @@ function convertTo12HourClock(time) {
 
 const searchButton = document.getElementById('search-btn');
 searchButton.addEventListener('click', () => {
+    removeAllWeatherDivInfoFromDOM();
     const cityCountryInput = document.getElementById('city-country-search');
     const cityName = getCityName(cityCountryInput.value);
 
