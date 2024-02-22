@@ -84,7 +84,7 @@ function renderHeaderWeatherInfo(weatherData)
 }
 
 function addWeatherInfoDiv(time, icon, temperature) {
-
+    //This function is responsible for adding one info div at a specific time
     const section = document.createElement('section');
     section.classList.add('weather-info-section');
 
