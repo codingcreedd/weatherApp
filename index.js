@@ -253,10 +253,18 @@ function renderDays(weatherData){
     }
 }
 
+function removeDays(){
+    const daysContainer = document.querySelector('.days');
+    while(daysContainer.firstChild){
+        daysContainer.removeChild(daysContainer.firstChild);
+    }
+}
+
 
 const searchButton = document.getElementById('search-btn');
 searchButton.addEventListener('click', () => {
     removeAllWeatherDivInfoFromDOM();
+    removeDays();
     const cityCountryInput = document.getElementById('city-country-search');
     const cityName = getCityName(cityCountryInput.value);
 
