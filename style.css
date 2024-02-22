@@ -118,5 +118,19 @@ hr{
     margin-bottom: 20px;
 }
 
+/*days info*/
 
+.weather-days-info{
+    display: flex;
+    margin-left: 20px;
+    margin-top: 60px;
+}
+
+.weather-days-info .day-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 75%;
+    font-size: 1.3rem;
+}
 
