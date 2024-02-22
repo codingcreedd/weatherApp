@@ -83,6 +83,41 @@ function renderHeaderWeatherInfo(weatherData)
 
 }
 
+function addWeatherInfoDiv(time, icon, temperature) {
+
+    const section = document.createElement('section');
+    section.classList.add('weather-info-section');
+
+    const div = document.createElement('div');
+    div.classList.add('weather-info-div');
+
+    const timeParagraph = document.createElement('p');
+    timeParagraph.classList.add('time');
+    timeParagraph.textContent = `${time}`;
+
+    const iconDiv = document.createElement('div');
+    iconDiv.classList.add('weather-status-icon');
+
+    const Icon = document.createElement('img');
+    Icon.src = `${icon}`;
+    
+
+    const tempParagraph = document.createElement('p');
+    tempParagraph.classList.add('weather-temp');
+    tempParagraph.innerHTML = `${temperature}&deg;`; 
+    iconDiv.appendChild(Icon);
+
+    div.appendChild(timeParagraph);
+    div.appendChild(iconDiv);
+    div.appendChild(tempParagraph);
+
+    section.appendChild(div);
+
+    const container = document.getElementById('container'); 
+    container.appendChild(section);
+}
+
+
 const searchButton = document.getElementById('search-btn');
 searchButton.addEventListener('click', () => {
     const cityCountryInput = document.getElementById('city-country-search');
