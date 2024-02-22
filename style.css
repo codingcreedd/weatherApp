@@ -54,6 +54,44 @@ hr{
     margin-right: 7px;
 }
 
+.input-div{
+    transform: translateY(10px);
+    margin-left: 30%;
+}
+
+.input-div #city-country-search{
+    width: 400px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background: transparent;
+    padding: 18px 10px;
+}
+
+.input-div #city-country-search::placeholder{
+    opacity: 1;
+    color: white;
+}
+
+.input-div #city-country-search:focus{
+    outline: none;
+}
+
+.input-div #search-btn{
+    background: transparent;
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.input-div #search-btn:hover{
+    color: #1e272e;
+    background: white;
+}
+
 /*weather info section*/
 
 .weather-info-section{
@@ -74,4 +112,6 @@ hr{
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
+
+
 
