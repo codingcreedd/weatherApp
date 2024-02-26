@@ -128,25 +128,25 @@ function removeAllWeatherDivInfoFromDOM(){
 }
 
 function renderWeatherInfoAtAllTimes(weatherData){
-    const currentDay = new Date().toISOString().split('T')[0];
-    const currentDate = new Date();
+    const currentHour = new Date().getHours();
+    const hours = getForcastDay(weatherData).hour;
+    let startIndex = hours.findIndex(hourData => parseInt(hourData.time.split(' ')[1]) >= currentHour);
+  
+    if (startIndex === -1) {
+        startIndex = 0;
+    }
 
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const hour = String(currentDate.getHours()).padStart(2, '0');
-
-    // Format the date as "YYYY-MM-DD HH:00"
-    const formattedDateTime = `${year}-${month}-${day} ${hour}:00`;
-
-    getForcastDay(weatherData).hour.forEach(currentHour => {
-        const time = extractTime(currentHour.time);
+    for (let i = startIndex; i < startIndex + 24; i++) {
+        const hourData = hours[i % hours.length];
+        const time = extractTime(hourData.time);
         const timeIn12HourFormat = convertTo12HourClock(time);
-
-        addWeatherInfoDiv(timeIn12HourFormat, currentHour.condition.icon, currentHour.temp_c);
-        console.log('rannn')
-    })
+        const icon = hourData.condition.icon;
+        const temperature = hourData.temp_c;
+        addWeatherInfoDiv(timeIn12HourFormat, icon, temperature);
+    }
 }
+
+   
 
 function extractTime(datetime) {
     const parts = datetime.split(' ');
