@@ -3,7 +3,7 @@
 async function fetchWeatherData(cityName) {
     try {
         console.log('ran')
-        const weatherResult = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=37f27913376d45459b7195029241802&q=${cityName}&days=10&aqi=no&alerts=no`, {mode: 'cors'});
+        const weatherResult = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=37f27913376d45459b7195029241802&q=${cityName}&days=10&aqi=no&alerts=no`, {mode: 'cors'});
         if (!weatherResult.ok) {
             throw new Error('Failed to fetch weather data');
         }
